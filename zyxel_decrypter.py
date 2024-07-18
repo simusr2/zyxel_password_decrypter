@@ -78,7 +78,18 @@ for line in all_lines:
     count += 1
 
     if "$4$" in line:
+        # Define the string
+        text = line
 
+        # Define the regex pattern to match the second token
+        pattern = r'\b\w+\b\s+\b(\w+)\b'
+
+        # Search for the pattern in the string
+        match = re.search(pattern, text)
+
+        # Check if a match was found and extract the second token
+        if match:
+            username = match.group(1)
         pattern = "\$.*?\$(.*?)\$(.*?)\$"
 
         par = re.search(pattern, line)
@@ -99,14 +110,26 @@ for line in all_lines:
             clear_pass = decrypted.decode('utf-8')[len(str(par.group(1))):decrypted.decode('utf-8').find('\x00')]
             line = line.replace(par.group(0),clear_pass)
 
-            print("\r[X] Decrypting " + str(par.group(0))[:20] + "... OK - (" + clear_pass + ")")
+            print("\r[X] Decrypting " + str(par.group(0))[:20] + "... OK - (" + username + " " + clear_pass + ")")
 
             passwords += 1
         else:
             print("\r[-] Decrypting " + str(par.group(0))[:20] + "... KO - Decryption failed")
         
-    elif "$5$" in line:
+    elif "$5$" in line:        
+        # Define the string
+        text = line
 
+        # Define the regex pattern to match the second token
+        pattern = r'\b\w+\b\s+\b(\w+)\b'
+
+        # Search for the pattern in the string
+        match = re.search(pattern, text)
+
+        # Check if a match was found and extract the second token
+        if match:
+            username = match.group(1)
+        
         pattern = "\$.*?\$(.*?)\$(.*?)\$(.*?)\$"
         par = re.search(pattern, line)
 
@@ -134,7 +157,7 @@ for line in all_lines:
                 clear_pass = decrypted.decode('utf-8')[len(str(par.group(1))):decrypted.decode('utf-8').find('\x00')]
                 line = line.replace(par.group(0),clear_pass)
 
-                print("\r[X] Decrypting " + str(par.group(0))[:20] + "... OK - (" + clear_pass + ")")
+                print("\r[X] Decrypting " + str(par.group(0))[:20] + "... OK - (" + username + " " + clear_pass + ")")
 
                 passwords += 1
             else:
